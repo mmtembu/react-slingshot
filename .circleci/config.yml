@@ -41,7 +41,7 @@ jobs:
 
 
 workflows:
-  say-hello-workflow:
+  Myworkflow:
     jobs:
       - build
       - test: 
