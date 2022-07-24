@@ -5,18 +5,20 @@ orbs:
 jobs:
   set_up_variables: 
     environment:
-      AWS_ACCESS_KEY: AKIARNQ6UFRQJVD3USGV
-      AWS_SECRET_KEY: 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
+      AWS_ACCESS_KEY: "AKIARNQ6UFRQJVD3USGV"
+      AWS_SECRET_KEY: "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"
       AWS_REGION: "us-east-1"
     executor: aws-cli/default
+    docker:
+      - image: cimg:/aws:2022.06
     steps:
       - checkout
       - run:
           name: "SET UP AWS CREDENTIALS"
           command: |
-            aws configure --profile default set aws_access_key_id $AWS_ACCESS_KEY
-            aws configure --profile default set aws_secret_key_key $AWS_SECRET_KEY
-            aws configure --profile default set aws_region $AWS_REGION
+            aws configure --profile default set aws-access-key-id $AWS_ACCESS_KEY
+            aws configure --profile default set aws-secret-key-key $AWS_SECRET_KEY
+            aws configure --profile default set aws-region $AWS_REGION
             aws configure --profile default list
             
   display_aws_instance_name:
