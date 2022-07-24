@@ -33,7 +33,8 @@ jobs:
       - run:
           name: "Save inventory file"
           command: |
-            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Name,Values=udacity" --output text >> inventory
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters 'Name=tag:Project,Values=BasicsInstance' --output text
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters 'Name=tag:Project,Values=BasicsInstance' --output text >> inventory
             cat inventory
       - save_cache:
           paths:
