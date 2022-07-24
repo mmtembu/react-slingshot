@@ -24,12 +24,16 @@ jobs:
           name: "DISPLAY IAM USERS"
           command: |
             aws iam list-users
-            ls -lah
+      - run: 
+          name: "Create inventory with [web] head"
+          command: |
+            touch inventory 
+            echo "[web]" >> inventory
+            cat inventory
       - run:
           name: "Save inventory file"
           command: |
             aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Name,Values=udacity" --output text >> inventory
-            ls -lah
             cat inventory
       - save_cache:
           paths:
