@@ -8,7 +8,6 @@ jobs:
       AWS_ACCESS_KEY: "AKIARNQ6UFRQJVD3USGV"
       AWS_SECRET_KEY: "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"
       AWS_REGION: "us-east-1"
-    executor: aws-cli/default
     docker:
       - image: cimg/aws:2022.06
     steps:
@@ -39,21 +38,19 @@ jobs:
       - save_cache:
           paths:
             - inventory
-          key: "inventory_file"
+          key: "inventory_txt"
 
-            
   display_aws_instance_name:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/aws:2022.06
     steps:
       - checkout
       - restore_cache:
-          keys: 
-            - "inventory_file"
+          keys:
+            - "inventory_txt"
       - run:
           name: "Display inventory contents"
-          command: | 
-            ls -lah
+          command: |
             cat inventory
   build:
     docker:
