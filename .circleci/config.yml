@@ -8,8 +8,7 @@ jobs:
       AWS_ACCESS_KEY: AKIARNQ6UFRQJVD3USGV
       AWS_SECRET_KEY: 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
       AWS_REGION: "us-east-1"
-    docker:
-      - image: circleci/aws-cli@3.1
+    executor: aws-cli/default
     steps:
       - checkout
       - run:
