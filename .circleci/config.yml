@@ -1,6 +1,36 @@
 version: 2.1
 
+orbs:
+  aws-cli: circleci/aws-cli@3.1
 jobs:
+  set_up_variables: 
+    environment:
+      AWS_ACCESS_KEY: AKIARNQ6UFRQJVD3USGV
+      AWS_SECRET_KEY: 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
+      AWS_REGION: "us-east-1"
+    docker:
+      - image: circleci/aws-cli@3.1
+    steps:
+      - checkout
+      - run:
+          name: "SET UP AWS CREDENTIALS"
+          command: |
+            echo 'aws configure --profile default set aws_access_key_id $AWS_ACCESS_KEY'
+            echo 'aws configure --profile default set aws_secret_key_key $AWS_SECRET_KEY'
+            echo 'aws configure --profile default set aws_region $AWS_REGION'
+            echo 'aws configure --profile default list'
+            
+  display_aws_instance_name:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: "Display aws instance address"
+          command: | 
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
   build:
     docker:
       - image: circleci/node:13.8.0
@@ -43,8 +73,9 @@ jobs:
 workflows:
   Myworkflow:
     jobs:
-      - build
-      - test: 
-          requires: [build]
-      - analyze:
-          requires: [test]
+     - set_up_variables
+    #   - build
+    #   - test: 
+    #       requires: [build]
+    #   - analyze:
+    #       requires: [test]
