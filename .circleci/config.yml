@@ -24,18 +24,32 @@ jobs:
           name: "DISPLAY IAM USERS"
           command: |
             aws iam list-users
+            ls -lah
+      - run:
+          name: "Save inventory file"
+          command: |
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Name,Values=udacity" --output text >> inventory
+            ls -lah
+            cat inventory
+      - save_cache:
+          paths:
+            - inventory
+          key: "inventory_file"
+
             
   display_aws_instance_name:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - checkout
+      - restore_cache:
+          keys: 
+            - "inventory_file"
       - run:
-          name: "Display aws instance address"
+          name: "Display inventory contents"
           command: | 
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
+            ls -lah
+            cat inventory
   build:
     docker:
       - image: circleci/node:13.8.0
@@ -79,6 +93,8 @@ workflows:
   Myworkflow:
     jobs:
      - set_up_variables
+     - display_aws_instance_name:
+        requires: [set_up_variables]
     #   - build
     #   - test: 
     #       requires: [build]
