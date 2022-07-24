@@ -10,7 +10,7 @@ jobs:
       AWS_REGION: "us-east-1"
     executor: aws-cli/default
     docker:
-      - image: cimg:/aws:2022.06
+      - image: cimg/aws:2022.06
     steps:
       - checkout
       - run:
