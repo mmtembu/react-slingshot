@@ -20,6 +20,10 @@ jobs:
             aws configure --profile default set aws_secret_access_key $AWS_SECRET_KEY
             aws configure --profile default set aws_region $AWS_REGION
             aws configure --profile default list
+      - run: 
+          name: "DISPLAY IAM USERS"
+          command: |
+            aws iam list-users
             
   display_aws_instance_name:
     docker:
